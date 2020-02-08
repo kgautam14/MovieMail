@@ -1,7 +1,4 @@
 import smtplib, ssl
-import csv
-import yagmail
-import codecs
 
 def sendmail(filename):
 
@@ -18,6 +15,8 @@ def sendmail(filename):
     if ans == 'y':
         print("Oh well, here we go.\n")
         print(f"Sending Emails to {reciever_em}Now.\n")
+
+
         with open(filename, 'r', encoding='utf-8') as f:
             for line in f:
                 for word in line.split():
@@ -42,9 +41,22 @@ def printscript(filename):
     print("THINK BEFORE YOU HIT 1\n")
     print("Good Bye :)\n")
 
-def main():
+def checkPath(filename):
 
-    filename = input("Enter file name: ")
+    try:
+        sudoku = open(filename, 'r', encoding='utf-8').readlines()
+    except FileNotFoundError:
+        print("Wrong File Name\n")
+        if main.counter > 3:
+            print("Sorry too many wrong trials.\n")
+            print("Good Bye :)\n")
+            exit(3)
+        else:
+            main()
+
+
+def runmenu(filename):
+
     print("Select one option:\n")
     print("1. Send Script to friend, 1 WORD = 1 EMAIL\n")
     print("2. Print Script (Recommended to do before going with 1st option)\n")
@@ -59,5 +71,14 @@ def main():
         print("Bye Then\n")
         exit(1)
 
+
+def main():
+
+    filename = input("Enter file name: ")
+    main.counter += 1
+    checkPath(filename)
+    runmenu(filename)
+
+main.counter = 0
 if __name__ == "__main__":
     main()
